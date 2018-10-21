@@ -1,6 +1,7 @@
 package edu.oregonstate.namemangler;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,7 +19,9 @@ import static android.widget.Toast.LENGTH_SHORT;
 public class MainActivity extends AppCompatActivity {
     private EditText mUserInput;
     private Button mMangleButton;
-    private String[] names = {"A", "B", "C", "D"};
+    private String[] names = {"Jones", "Bob", "Worthington", "Hollywood"};
+
+    public static final String EXTRA_MESSAGE = "edu.oregonstate.namemangler.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,19 +39,22 @@ public class MainActivity extends AppCompatActivity {
 
                 if (userInputString.length() == 0){
                     Context context = getApplicationContext();
-                    CharSequence output = "nothing entered ";
+                    CharSequence output = "Please enter a name";
                     Toast toast = Toast.makeText(context,output,LENGTH_SHORT);
                     toast.show();
                 } else{
-                    Context context = getApplicationContext();
+                    Random rand = new Random();
+                    int randomNum = rand.nextInt((0 - 3) + 1) + 0;
 
-                    Random rando = new Random();
-                    int x = rando.nextInt(4+1-0);
+                    Intent intent = new Intent(MainActivity.this, RemangleActivity.class);
+                    String mangledName = userInputString + " " + names[randomNum];
+                    intent.putExtra(EXTRA_MESSAGE, mangledName);
+                    startActivity(intent);
 
-                    // crashes here
-                    CharSequence output = "nothing entered "+names[x];
-                    Toast toast = Toast.makeText(context,output,LENGTH_SHORT);
-                    toast.show();
+
+                    //Context context = getApplicationContext();
+                    //Toast toast = Toast.makeText(context,userInputString,LENGTH_SHORT);
+                    //toast.show();
                 }
             }
         });

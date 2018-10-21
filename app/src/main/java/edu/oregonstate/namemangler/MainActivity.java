@@ -43,9 +43,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast toast = Toast.makeText(context,output,LENGTH_SHORT);
                     toast.show();
                 } else{
-                    //Random rand = new Random();
-                    //int randomNum = rand.nextInt((0 - 3) + 1) + 0;
-
                     Intent intent = new Intent(MainActivity.this, MangledName.class);
                     intent.putExtra(EXTRA_MESSAGE, userInputString);
                     startActivity(intent);

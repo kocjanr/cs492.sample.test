@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class MangledName extends AppCompatActivity {
     private String[] names = {"Jones", "Bob", "Worthington", "Hollywood"};
@@ -15,16 +16,23 @@ public class MangledName extends AppCompatActivity {
     private Button mResetButton;
     private Button mRemangleButton;
 
+    private static final String ARRAY_INDEX = "index";
+    private int value;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mangled_name);
 
+        if(savedInstanceState !=null){
+            value = savedInstanceState.getInt(ARRAY_INDEX,0);
+        }
+
         Intent intent = getIntent();
         final String userInputString = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
         Random rand = new Random();
-        int value = rand.nextInt(names.length) + 1;
+        value = rand.nextInt(names.length) + 1;
         String mangledDisplayName = userInputString + " " + names[value];
 
         mNameMangled = (TextView) findViewById(R.id.mangled_name_text);
@@ -44,8 +52,12 @@ public class MangledName extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
 
-
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putInt(ARRAY_INDEX,value);
 
     }
 }
